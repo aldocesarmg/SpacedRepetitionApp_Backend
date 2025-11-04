@@ -1,6 +1,7 @@
 {
   "name": "spacedrepetitionapp_v1",
   "version": "1.0.0",
+  "type": "module",
   "description": "this is the first version of the spaced repetition app inspired by Kaila",
   "main": "index.js",
   "scripts": {
@@ -9,6 +10,8 @@
   "author": "aldocesarmg",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
     "mongoose": "^8.19.3"
   }
 }
