@@ -4,6 +4,7 @@ import mazosRouter from './routes/mazosRoutes.js';
 import sessionRouter from './routes/session.js';
 import "dotenv/config";
 import session from "express-session";
+import MongoStore from "connect-mongo";
 
 const app = express();
 
@@ -11,7 +12,11 @@ app.use(session({
     secret: 'abcxyz',
     resave: false,
     saveUninitialized: false,
-    cookie: { maxAge: 1000 * 60 * 60 * 24 }
+    store: MongoStore.create({
+        mongoUrl: process.env.DB_URL,
+        ttl: 1 * 24 * 60 * 60, // Session TTL in seconds (e.g., 1 day)
+        autoRemove: 'native' // Uses MongoDB's TTL feature to remove expired sessions
+    })
 }));
 
 app.use(express.json());
