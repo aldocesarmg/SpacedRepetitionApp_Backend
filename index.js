@@ -1,8 +1,22 @@
 import mongoose from "mongoose";
 import express from "express";
+import mazosRouter from './routes/mazosRoutes.js';
+import sessionRouter from './routes/session.js';
 import "dotenv/config";
+import session from "express-session";
 
 const app = express();
+
+app.use(session({
+    secret: 'abcxyz',
+    resave: false,
+    saveUninitialized: false,
+    cookie: { maxAge: 1000 * 60 * 60 * 24 }
+}));
+
+app.use(express.json());
+app.use('/mazos', mazosRouter);
+app.use('/users/', sessionRouter);
 
 await mongoose.connect(process.env.DB_URL).then(() => {
     console.log('Connected to MongoDB');
@@ -11,6 +25,7 @@ await mongoose.connect(process.env.DB_URL).then(() => {
     });
 }).catch(err => console.error('Error: ' + err));
 
+// For shutdown
 process.on('SIGINT', async () => {
     console.log('Shutting down server...');
     await mongoose.disconnect();
