@@ -49,7 +49,7 @@ router.post('/login', async (req, res) => {
 });
 
 router.get('/profile', (req, res) => {
-     if (req.session.user) {
+     if (req.session && req.session.user) {
         res.send(`Welcome ${req.session.user.username}!`);
      } else {
         res.send(`Please log in`);

@@ -5,18 +5,29 @@ import sessionRouter from './routes/session.js';
 import "dotenv/config";
 import session from "express-session";
 import MongoStore from "connect-mongo";
+import cors from "cors";
 
 const app = express();
 
 app.use(session({
-    secret: 'abcxyz',
+    secret: process.env.SECRET, // this must be a 
     resave: false,
     saveUninitialized: false,
     store: MongoStore.create({
         mongoUrl: process.env.DB_URL,
         ttl: 1 * 24 * 60 * 60, // Session TTL in seconds (e.g., 1 day)
         autoRemove: 'native' // Uses MongoDB's TTL feature to remove expired sessions
-    })
+    }),
+    cookie: {
+        maxAge: 1000 * 60 * 60 * 24, // Cookie expiration time (1 day),
+        httpOnly: true, // prevents client-side javascript from reading the cookie
+        secure: false // use true for production environments (for secure cookies)
+    }
+}));
+
+app.use(cors({
+    origin: 'http://localhost:3001', // react frontend app's url
+    credentials: true // crucial for sending/receiving cookies
 }));
 
 app.use(express.json());
