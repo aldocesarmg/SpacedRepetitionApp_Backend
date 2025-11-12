@@ -5,8 +5,19 @@ const router = express.Router();
 
 // get all mazos
 router.get('/', async (req, res) => {
-    const mySearch = await Mazo.find({  });
-    res.json(mySearch);
+    // check below operation
+    try {
+        let retrievedMazos = null;
+        if (req.query.limit) {
+            retrievedMazos = await Mazo.find({  }).limit(req.query.imit);
+        } else {
+            retrievedMazos = await Mazo.find({  });
+        }
+        
+        res.json(retrievedMazos);
+    } catch (anyException) {
+        res.json({});
+    }
 });
 
 router.post('/', async (req, res) => {
