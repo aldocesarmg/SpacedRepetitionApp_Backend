@@ -29,6 +29,7 @@ router.post('/login', async (req, res) => {
 
         if (result === true) {
             req.session.user = { id: userAndPassword[0].id, username: userAndPassword[0].username };
+            console.log(req.session);
             res.json({
                 responseCode: 'SP_000',
                 responseText: `Logged in successfully`
@@ -49,7 +50,7 @@ router.post('/login', async (req, res) => {
 });
 
 router.get('/profile', (req, res) => {
-     if (req.session && req.session.user) {
+     if (req.session.user) {
         res.send(`Welcome ${req.session.user.username}!`);
      } else {
         res.send(`Please log in`);
