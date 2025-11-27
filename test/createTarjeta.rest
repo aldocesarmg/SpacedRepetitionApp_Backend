@@ -1,0 +1,24 @@
+POST http://localhost:3000/tarjetas
+Content-Type: application/json
+
+{
+    "question": "When did doctor Nosborn was born?",
+    "options": [
+        {
+            "description": "1943",
+            "isCorrectAnwser": "false"
+        },
+        {
+            "description": "1911",
+            "isCorrectAnwser": "false"
+        },
+        {
+            "description": "1854",
+            "isCorrectAnwser": "false"
+        },
+        {
+            "description": "1657",
+            "isCorrectAnwser": "true"
+        }
+    ]
+}

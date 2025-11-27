@@ -1,13 +1,14 @@
 import mongoose from 'mongoose';
 
-const opcionesSchema = new mongoose.Schema({
-    descripcion: {type: String, required: true, unique: false},
-    esRespuestaCorrecta: {type: Boolean, required: true, unique: false}
+const optionsSchema = new mongoose.Schema({
+    description: {type: String, required: true, unique: false},
+    isCorrectAnwser: {type: Boolean, required: true, unique: false}
 });
 
 const tarjetaSchema = new mongoose.Schema({
-    pregunta: {type: String, required: true, unique: false},
-    opciones: [opcionesSchema]
+    question: {type: String, required: true, unique: false},
+    options: [optionsSchema],
+    mazo: { type: mongoose.Schema.Types.ObjectId, ref: 'Mazo'}
 });
 
 const Tarjeta = mongoose.model('Tarjeta', tarjetaSchema);

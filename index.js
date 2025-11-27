@@ -1,11 +1,14 @@
 import mongoose from "mongoose";
 import express from "express";
-import mazosRouter from './routes/mazosRoutes.js';
-import sessionRouter from './routes/session.js';
-import "dotenv/config";
 import session from "express-session";
 import MongoStore from "connect-mongo";
 import cors from "cors";
+
+import mazosRouter from './routes/mazosRoutes.js';
+import tarjetasRouter from './routes/tarjetasRoutes.js';
+import sessionRouter from './routes/session.js';
+
+import "dotenv/config";
 
 const app = express();
 
@@ -31,7 +34,8 @@ app.use(cors({
 }));
 
 app.use(express.json());
-app.use('/mazos', mazosRouter);
+app.use('/mazos/', mazosRouter);
+app.use('/tarjetas/', tarjetasRouter);
 app.use('/users/', sessionRouter);
 
 await mongoose.connect(process.env.DB_URL).then(() => {
