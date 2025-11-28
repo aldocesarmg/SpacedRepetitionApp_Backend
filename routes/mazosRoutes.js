@@ -9,13 +9,26 @@ router.get('/', async (req, res) => {
         let retrievedMazos = null;
 
         if (req.query.limit) {
-            retrievedMazos = await Mazo.find().limit(req.query.limit).populate('cards').exec();
+            retrievedMazos = await Mazo.find().limit(req.query.limit);
         } else {
-            retrievedMazos = await Mazo.find().populate('cards').exec();
+            retrievedMazos = await Mazo.find();
         }
 
         res.json(retrievedMazos);
     } catch (anyException) {
+        res.status(400).json({
+            responseCode: 'SP_001',
+            responseText: 'Error when trying to add new tarjeta: ' + anyException
+        });
+    }
+});
+
+
+router.get('/:mazo', async (req, res) => {
+    try {
+        let retrievedMazo = await Mazo.findById(req.params.mazo).select('title cards').populate('cards', 'question options.description').exec();
+        res.json(retrievedMazo);
+    } catch(anyException) {
         res.status(400).json({
             responseCode: 'SP_001',
             responseText: 'Error when trying to add new tarjeta: ' + anyException
